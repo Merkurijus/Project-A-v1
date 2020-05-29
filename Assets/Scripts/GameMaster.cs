@@ -16,6 +16,8 @@ public class GameMaster : MonoBehaviour
     public Color tamsiSpalva;
     public Color sviesiSpalva;
     public Color langelioSpalvaUzvedusPele;
+    public Color kariuomenesEjimoSpalva;
+    public Color kariuomenesEjimoSpalvaUzvedusPele;
 
     // Kariuomeniu prefab
     public GameObject pestininkas;
@@ -25,6 +27,12 @@ public class GameMaster : MonoBehaviour
     {
        
     }
-   
+    public void IsvalytiPasirinktusLangelius()
+    {
+        foreach (var langelis in FindObjectsOfType<Tile>())
+        {
+            langelis.GetComponent<SpriteRenderer>().color = langelis.dabartineSpalva;
+        }
+    }
 }
 

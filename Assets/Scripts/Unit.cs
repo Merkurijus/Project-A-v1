@@ -16,6 +16,7 @@ public class Unit : MonoBehaviour
     private Ginklai ginklas;
     private Sarvai sarvai;
     private Player player;
+    private GameMaster gameMaster;
     public bool arGalimaJudinti;
     public bool arGaliPulti;
     public bool arPasirinktas;
@@ -25,30 +26,34 @@ public class Unit : MonoBehaviour
     private void Awake()
     {
         player = FindObjectOfType<Player>();
+        gameMaster = FindObjectOfType<GameMaster>();
     }
     private void OnMouseDown()
     {
+        gameMaster.IsvalytiPasirinktusLangelius();
         arPasirinktas = !arPasirinktas;
-        if (arPasirinktas)
+        if (!arPasirinktas)
+        {
+            player.unit = null;
+        }
+        else
         {
             player.unit = this;
             Debug.Log("pasirinktas");
             GalimiLangeliai();
         }
-        else
-        {
-            player.unit = null;
-            Debug.Log("null");
-        }
+       
+       
 
     }
     private void GalimiLangeliai()
     {
         foreach (Tile tile in FindObjectsOfType<Tile>())
         {
-            if (Mathf.Abs(player.unit.transform.position.x - tile.transform.position.x) + Mathf.Abs(player.unit.transform.position.y - tile.transform.position.y) < galimasVaiksciotiAtstumas)
+            if (Mathf.Abs(transform.position.x - tile.transform.position.x) + Mathf.Abs(transform.position.y - tile.transform.position.y) <= galimasVaiksciotiAtstumas)
             {
-               // tile.GetComponent<SpriteRenderer>().color = kariuomenesEjimasSpalva;
+                var col = tile.GetComponent<SpriteRenderer>();
+                col.color = gameMaster.kariuomenesEjimoSpalva;
             }
         }
     }

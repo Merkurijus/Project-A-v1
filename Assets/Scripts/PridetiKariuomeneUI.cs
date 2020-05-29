@@ -31,5 +31,6 @@ public class PridetiKariuomeneUI : MonoBehaviour
         {
             player.rankojeUnit = gameMaster.pestininkas.GetComponent<Unit>();
         }
+
     }
 }

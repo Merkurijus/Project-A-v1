@@ -8,7 +8,7 @@ public class Tile : MonoBehaviour
     private Player player;
 
     private SpriteRenderer sprite;
-    private Color dabartineSpalva;
+    public Color dabartineSpalva;
     public bool arPasirinktas;
     
     private void Start()
@@ -20,7 +20,7 @@ public class Tile : MonoBehaviour
     }
     private void OnMouseDown()
     {
-
+       
         if (player.rankojeUnit != null)
         {
             var u = Instantiate(gameMaster.pestininkas);
@@ -39,10 +39,26 @@ public class Tile : MonoBehaviour
     }
     private void OnMouseOver()
     {
-        sprite.color = gameMaster.langelioSpalvaUzvedusPele;
+        if (player.unit == null)
+        {
+            sprite.color = gameMaster.langelioSpalvaUzvedusPele;
+        }
+        else if (Mathf.Abs(player.unit.transform.position.x - transform.position.x) + Mathf.Abs(player.unit.transform.position.y - transform.position.y) <= player.unit.galimasVaiksciotiAtstumas)
+        {
+            sprite.color = gameMaster.kariuomenesEjimoSpalvaUzvedusPele;
+        }
+
     }
     private void OnMouseExit()
     {
-        sprite.color = dabartineSpalva;
+        if (player.unit == null)
+        {
+            sprite.color = dabartineSpalva;
+        }
+        else if (Mathf.Abs(player.unit.transform.position.x - transform.position.x) + Mathf.Abs(player.unit.transform.position.y - transform.position.y) <= player.unit.galimasVaiksciotiAtstumas)
+        {
+            sprite.color = gameMaster.kariuomenesEjimoSpalva;
+        }
     }
+   
 }
