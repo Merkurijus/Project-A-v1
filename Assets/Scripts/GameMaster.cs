@@ -7,16 +7,19 @@ public class GameMaster : MonoBehaviour
     [SerializeField]
  
     public GameObject paryskintasLangelis;
+
     public int kiekLangeliuX;
     public int kiekLangeliuY;
-    public float offsetX;
-    public float offsetY;
 
 
     //Langelių spalvos
     public Color tamsiSpalva;
     public Color sviesiSpalva;
     public Color langelioSpalvaUzvedusPele;
+
+    // Kariuomeniu prefab
+    public GameObject pestininkas;
+
 
     private void Start()
     {

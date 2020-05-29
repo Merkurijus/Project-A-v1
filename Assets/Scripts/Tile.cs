@@ -20,16 +20,21 @@ public class Tile : MonoBehaviour
     }
     private void OnMouseDown()
     {
-       
 
+        if (player.rankojeUnit != null)
+        {
+            var u = Instantiate(gameMaster.pestininkas);
+            u.transform.position = this.transform.position;
+            player.rankojeUnit = null;
+        }
         if (player.unit != null && player.unit.arGaliPulti == true)
         {
-            gameMaster.paryskintasLangelis.SetActive(true);
-            gameMaster.paryskintasLangelis.transform.position = this.transform.position;
+           // gameMaster.paryskintasLangelis.SetActive(true);
+           // gameMaster.paryskintasLangelis.transform.position = this.transform.position;
         }
         else
         {
-            gameMaster.paryskintasLangelis.SetActive(false);
+            //gameMaster.paryskintasLangelis.SetActive(false);
         }
     }
     private void OnMouseOver()

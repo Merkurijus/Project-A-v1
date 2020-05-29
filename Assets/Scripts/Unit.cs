@@ -19,7 +19,7 @@ public class Unit : MonoBehaviour
     public bool arGalimaJudinti;
     public bool arGaliPulti;
     public bool arPasirinktas;
-
+    public bool arYraArenoje;
     
 
     private void Awake()
