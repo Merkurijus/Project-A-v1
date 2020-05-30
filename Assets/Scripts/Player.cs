@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public Unit unit;
     public Unit rankojeUnit;
-
+    public bool arPestininkasRankoje;
     public int TuriVienosRusiesKariu(string pavadinimas)
     {
         int viso = 0;

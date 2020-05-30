@@ -22,6 +22,7 @@ public class GameMaster : MonoBehaviour
     // Kariuomeniu prefab
     public GameObject pestininkas;
 
+    
 
     private void Start()
     {

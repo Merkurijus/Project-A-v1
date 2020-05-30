@@ -25,7 +25,9 @@ public class Tile : MonoBehaviour
         {
             var u = Instantiate(gameMaster.pestininkas);
             u.transform.position = this.transform.position;
+            u.transform.position = new Vector3(u.transform.position.x, u.transform.position.y, -5f);
             player.rankojeUnit = null;
+            player.arPestininkasRankoje = false;
         }
         if (player.unit != null && player.unit.arGaliPulti == true)
         {
