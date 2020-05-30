@@ -107,7 +107,7 @@ MonoBehaviour:
   arGaliPulti: 1
   arPasirinktas: 0
   arYraArenoje: 0
-  judejimoGreitis: 10
+  judejimoGreitis: 5
 --- !u!61 &1945364104717387992
 BoxCollider2D:
   m_ObjectHideFlags: 0
