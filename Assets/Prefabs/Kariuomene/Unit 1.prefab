@@ -103,10 +103,11 @@ MonoBehaviour:
   tipas: pestininkas
   gynybaPriesMagija: 5
   galimasVaiksciotiAtstumas: 3
-  arGalimaJudinti: 0
-  arGaliPulti: 0
+  arGalimaJudinti: 1
+  arGaliPulti: 1
   arPasirinktas: 0
   arYraArenoje: 0
+  judejimoGreitis: 10
 --- !u!61 &1945364104717387992
 BoxCollider2D:
   m_ObjectHideFlags: 0

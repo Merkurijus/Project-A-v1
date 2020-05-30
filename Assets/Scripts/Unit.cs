@@ -21,7 +21,8 @@ public class Unit : MonoBehaviour
     public bool arGaliPulti;
     public bool arPasirinktas;
     public bool arYraArenoje;
-    
+
+    public float judejimoGreitis;
 
     private void Awake()
     {
@@ -38,9 +39,13 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            player.unit = this;
-            Debug.Log("pasirinktas");
-            GalimiLangeliai();
+            if (arGalimaJudinti)
+            {
+                player.unit = this;
+                Debug.Log("pasirinktas");
+                GalimiLangeliai();
+            }
+            
         }
        
        
