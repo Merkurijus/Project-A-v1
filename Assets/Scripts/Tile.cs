@@ -21,7 +21,7 @@ public class Tile : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        
+
         if (player.rankojeUnit != null && arTusciasLangelis)
         {
             var u = Instantiate(gameMaster.pestininkas);
@@ -32,14 +32,14 @@ public class Tile : MonoBehaviour
             player.rankojeUnit = null;
             player.arPestininkasRankoje = false;
             arTusciasLangelis = false;
-            
-           
+
+
         }
         if (player.unit != null && player.unit.arGaliPulti == true)
         {
-           // gameMaster.paryskintasLangelis.SetActive(true);
-           // gameMaster.paryskintasLangelis.transform.position = this.transform.position;
-           
+            // gameMaster.paryskintasLangelis.SetActive(true);
+            // gameMaster.paryskintasLangelis.transform.position = this.transform.position;
+
         }
         else
         {
@@ -72,7 +72,7 @@ public class Tile : MonoBehaviour
     }
     private bool GalimasEjimas()
     {
-        
+
         if (player.unit != null && Mathf.Abs(player.unit.transform.position.x - this.transform.position.x) + Mathf.Abs(player.unit.transform.position.y - this.transform.position.y) <= player.unit.galimasVaiksciotiAtstumas)
         {
             if (this.arTusciasLangelis)
@@ -88,15 +88,16 @@ public class Tile : MonoBehaviour
         {
             return false;
         }
-       
+
     }
     void PaspaustaEiti()
     {
-        
+
         if (GalimasEjimas() && player.unit != null && player.unit.arGalimaJudinti == true && arTusciasLangelis)
         {
             StartCoroutine(PradetiJudejima());
-           
+            
+
         }
     }
     IEnumerator PradetiJudejima()
@@ -111,12 +112,17 @@ public class Tile : MonoBehaviour
             player.unit.transform.position = Vector2.MoveTowards(player.unit.transform.position, new Vector2(player.unit.transform.position.x, transform.position.y), player.unit.judejimoGreitis * Time.deltaTime);
             yield return null;
         }
+        player.unit.transform.position = new Vector3(player.unit.transform.position.x, player.unit.transform.position.y, -5f);
         player.unit.arGalimaJudinti = false;
+        
         gameMaster.IsvalytiPasirinktusLangelius();
         player.unit = null;
         if (player.dabartinisLangelis != null)
         {
             player.dabartinisLangelis.arTusciasLangelis = true;
+            player.dabartinisLangelis = this;
         }
+        
     }
+    
 }

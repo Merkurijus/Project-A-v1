@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public Unit unit;
     public Tile dabartinisLangelis;
+    public Tile naujasLangelis;
     public Unit rankojeUnit;
     public bool arPestininkasRankoje;
     public bool arZaidejoEjimas;

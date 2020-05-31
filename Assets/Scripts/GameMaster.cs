@@ -62,6 +62,10 @@ public class GameMaster : MonoBehaviour
         foreach (var langelis in FindObjectsOfType<Tile>())
         {
             langelis.GetComponent<SpriteRenderer>().color = langelis.dabartineSpalva;
+            if (player.unit != null && langelis.transform.position.x == player.unit.transform.position.x && langelis.transform.position.y == player.unit.transform.position.y)
+            {
+                langelis.arTusciasLangelis = false;
+            }
         }
     }
     public void PradetiEjima()
