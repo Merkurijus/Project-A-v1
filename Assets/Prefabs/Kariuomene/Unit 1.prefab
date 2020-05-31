@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6171658344347322810}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.1165376, y: 0.96, z: 10}
-  m_LocalScale: {x: 0.7, y: 0.85, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -102,11 +102,12 @@ MonoBehaviour:
   gynybaPriesRaitus: 1
   tipas: pestininkas
   gynybaPriesMagija: 5
-  galimasVaiksciotiAtstumas: 3
+  galimasVaiksciotiAtstumas: 2
   arGalimaJudinti: 1
   arGaliPulti: 1
   arPasirinktas: 0
   arYraArenoje: 0
+  arPriklausoZaidejui: 0
   judejimoGreitis: 5
 --- !u!61 &1945364104717387992
 BoxCollider2D:

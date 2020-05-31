@@ -10,8 +10,10 @@ public class Player : MonoBehaviour
     public List<GameObject> priesininkoKariuomene = new List<GameObject>();
     [HideInInspector]
     public Unit unit;
+    public Tile dabartinisLangelis;
     public Unit rankojeUnit;
     public bool arPestininkasRankoje;
+    public bool arZaidejoEjimas;
     public int TuriVienosRusiesKariu(string pavadinimas)
     {
         int viso = 0;

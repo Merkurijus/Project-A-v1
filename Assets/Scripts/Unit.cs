@@ -21,9 +21,10 @@ public class Unit : MonoBehaviour
     public bool arGaliPulti;
     public bool arPasirinktas;
     public bool arYraArenoje;
+    public bool arPriklausoZaidejui;
 
     public float judejimoGreitis;
-
+    
     private void Awake()
     {
         player = FindObjectOfType<Player>();
@@ -32,21 +33,26 @@ public class Unit : MonoBehaviour
     private void OnMouseDown()
     {
         gameMaster.IsvalytiPasirinktusLangelius();
-        arPasirinktas = !arPasirinktas;
-        if (!arPasirinktas)
+        if (gameMaster.arZaidejoEjimas() && arPriklausoZaidejui)
         {
-            player.unit = null;
-        }
-        else
-        {
-            if (arGalimaJudinti)
+
+            arPasirinktas = !arPasirinktas;
+            if (!arPasirinktas)
             {
-                player.unit = this;
-                Debug.Log("pasirinktas");
-                GalimiLangeliai();
+                player.unit = null;
             }
-            
+            else
+            {
+                if (arGalimaJudinti)
+                {
+                    
+                    player.unit = this;
+                    GalimiLangeliai();
+                }
+
+            }
         }
+        
        
        
 
@@ -55,10 +61,17 @@ public class Unit : MonoBehaviour
     {
         foreach (Tile tile in FindObjectsOfType<Tile>())
         {
-            if (Mathf.Abs(transform.position.x - tile.transform.position.x) + Mathf.Abs(transform.position.y - tile.transform.position.y) <= galimasVaiksciotiAtstumas)
+            if (this.transform.position.x == tile.transform.position.x && this.transform.position.y == tile.transform.position.y)
+            {
+                player.dabartinisLangelis = tile;
+               
+            }
+
+            if (Mathf.Abs(transform.position.x - tile.transform.position.x) + Mathf.Abs(transform.position.y - tile.transform.position.y) <= galimasVaiksciotiAtstumas && tile.arTusciasLangelis)
             {
                 var col = tile.GetComponent<SpriteRenderer>();
                 col.color = gameMaster.kariuomenesEjimoSpalva;
+               
             }
         }
     }

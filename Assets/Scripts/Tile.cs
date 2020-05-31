@@ -11,6 +11,7 @@ public class Tile : MonoBehaviour
     public Color dabartineSpalva;
     public bool arPasirinktas;
     private bool galimasEjimas;
+    public bool arTusciasLangelis = true;
     private void Start()
     {
         gameMaster = FindObjectOfType<GameMaster>();
@@ -21,13 +22,18 @@ public class Tile : MonoBehaviour
     private void OnMouseDown()
     {
         
-        if (player.rankojeUnit != null)
+        if (player.rankojeUnit != null && arTusciasLangelis)
         {
             var u = Instantiate(gameMaster.pestininkas);
             u.transform.position = this.transform.position;
             u.transform.position = new Vector3(u.transform.position.x, u.transform.position.y, -5f);
+            var unitClass = u.GetComponent<Unit>();
+            unitClass.arPriklausoZaidejui = true;
             player.rankojeUnit = null;
             player.arPestininkasRankoje = false;
+            arTusciasLangelis = false;
+            
+           
         }
         if (player.unit != null && player.unit.arGaliPulti == true)
         {
@@ -69,7 +75,14 @@ public class Tile : MonoBehaviour
         
         if (player.unit != null && Mathf.Abs(player.unit.transform.position.x - this.transform.position.x) + Mathf.Abs(player.unit.transform.position.y - this.transform.position.y) <= player.unit.galimasVaiksciotiAtstumas)
         {
-            return true;
+            if (this.arTusciasLangelis)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {
@@ -80,7 +93,7 @@ public class Tile : MonoBehaviour
     void PaspaustaEiti()
     {
         
-        if (GalimasEjimas() && player.unit != null && player.unit.arGalimaJudinti == true)
+        if (GalimasEjimas() && player.unit != null && player.unit.arGalimaJudinti == true && arTusciasLangelis)
         {
             StartCoroutine(PradetiJudejima());
            
@@ -101,5 +114,9 @@ public class Tile : MonoBehaviour
         player.unit.arGalimaJudinti = false;
         gameMaster.IsvalytiPasirinktusLangelius();
         player.unit = null;
+        if (player.dabartinisLangelis != null)
+        {
+            player.dabartinisLangelis.arTusciasLangelis = true;
+        }
     }
 }

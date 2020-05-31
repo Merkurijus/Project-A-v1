@@ -30,22 +30,27 @@ public class PridetiKariuomeneUI : MonoBehaviour
     }
     public void pirktiPestininka()
     {
-        if (kainos.PestininkuKaina <= player.auksiniai && player.arPestininkasRankoje == false)
+        if (gameMaster.arZaidejoEjimas())
         {
-            player.zaidejoKariuomene.Add(gameMaster.pestininkas);
-            player.auksiniai -= kainos.PestininkuKaina;
-            player.arPestininkasRankoje = true;
-            pirktiKariUI.SetActive(false);
-            PadetiPestininka();
+            if (kainos.PestininkuKaina <= player.auksiniai && player.arPestininkasRankoje == false)
+            {
+                player.zaidejoKariuomene.Add(gameMaster.pestininkas);
+                player.auksiniai -= kainos.PestininkuKaina;
+                player.arPestininkasRankoje = true;
+                pirktiKariUI.SetActive(false);
+                PadetiPestininka();
+                gameMaster.AtnaujintiAuksiniuTeksta();
+            }
+            else
+            {
+                Debug.Log("neuztenka auksiniu");
+            }
         }
-        else
-        {
-            Debug.Log("neuztenka auksiniu");
-        }
+        
     }
     public void PadetiPestininka()
     {
-        if (player.rankojeUnit == null)
+        if (player.rankojeUnit == null & gameMaster.arZaidejoEjimas())
         {
             player.rankojeUnit = gameMaster.pestininkas.GetComponent<Unit>();
         }
