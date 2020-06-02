@@ -57,6 +57,14 @@ public class Tile : MonoBehaviour
         {
             sprite.color = gameMaster.kariuomenesEjimoSpalvaUzvedusPele;
         }
+        else if(!arTusciasLangelis && player.unit.arGaliPulti)
+        {
+            //sprite.color = gameMaster.kariuomenesPuolimoSpalva;
+        }
+        if (player.arPestininkasRankoje && arTusciasLangelis)
+        {
+            sprite.color = gameMaster.kariuomenesEjimoSpalva;
+        }
 
     }
     private void OnMouseExit()
@@ -90,6 +98,24 @@ public class Tile : MonoBehaviour
         }
 
     }
+    private bool GalimasPuolimas()
+    {
+        if (player.unit != null && Mathf.Abs(player.unit.transform.position.x - this.transform.position.x) + Mathf.Abs(player.unit.transform.position.y - this.transform.position.y) <= player.unit.galimasPultiAtstumas)
+        {
+            if (!this.arTusciasLangelis)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
     void PaspaustaEiti()
     {
 
@@ -112,9 +138,10 @@ public class Tile : MonoBehaviour
             player.unit.transform.position = Vector2.MoveTowards(player.unit.transform.position, new Vector2(player.unit.transform.position.x, transform.position.y), player.unit.judejimoGreitis * Time.deltaTime);
             yield return null;
         }
+        player.unit.arBaigeJudeti = true;
         player.unit.transform.position = new Vector3(player.unit.transform.position.x, player.unit.transform.position.y, -5f);
         player.unit.arGalimaJudinti = false;
-        
+        player.unit.GalimiPuolimoLangeliai();
         gameMaster.IsvalytiPasirinktusLangelius();
         player.unit = null;
         if (player.dabartinisLangelis != null)

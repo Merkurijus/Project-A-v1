@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public Tile dabartinisLangelis;
     public Tile naujasLangelis;
     public Unit rankojeUnit;
+    public List<Unit> ZaidejoPriesai = new List<Unit>();
     public bool arPestininkasRankoje;
     public bool arZaidejoEjimas;
     public int TuriVienosRusiesKariu(string pavadinimas)

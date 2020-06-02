@@ -16,7 +16,7 @@ public class GameMaster : MonoBehaviour
     public Color langelioSpalvaUzvedusPele;
     public Color kariuomenesEjimoSpalva;
     public Color kariuomenesEjimoSpalvaUzvedusPele;
-
+    public Color kariuomenesPuolimoSpalva;
     //
     [SerializeField]
     private Text laikas;
@@ -70,20 +70,27 @@ public class GameMaster : MonoBehaviour
     }
     public void PradetiEjima()
     {
-        int ejimas = Random.Range(0, 1);
-        player.arZaidejoEjimas = (ejimas == 1) ? true : false;
-        arZaidimasPrasidejo = true;
-        dabartinisLaikas = ejimoLaikas;
         
-        AtnaujintiKienoEjimasVarda();
+            int ejimas = Random.Range(0, 1);
+            player.arZaidejoEjimas = (ejimas == 1) ? true : false;
+            arZaidimasPrasidejo = true;
+            dabartinisLaikas = ejimoLaikas;
+
+            AtnaujintiKienoEjimasVarda();
+        
+        
 
     }
     public void BaigtiEjima()
     {
-        player.arZaidejoEjimas = (player.arZaidejoEjimas == true) ? false : true;
-        dabartinisLaikas = ejimoLaikas;
-        AtnaujintiKienoEjimasVarda();
-        AtnaujintiKariuLeidimus(player.arZaidejoEjimas);
+        
+            player.arZaidejoEjimas = (player.arZaidejoEjimas == true) ? false : true;
+            dabartinisLaikas = ejimoLaikas;
+            AtnaujintiKienoEjimasVarda();
+            AtnaujintiKariuLeidimus(player.arZaidejoEjimas);
+            IsvalytiPasirinktusLangelius();
+            player.unit = null;
+        
     }
     public void AtnaujintiAuksiniuTeksta()
     {
@@ -118,6 +125,7 @@ public class GameMaster : MonoBehaviour
                 item.arGalimaJudinti = true;
                 item.arGaliPulti = true;
                 item.arPasirinktas = false;
+                item.arBaigeJudeti = false;
             }
         }
     }

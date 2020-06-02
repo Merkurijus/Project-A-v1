@@ -11,7 +11,7 @@ public class Unit : MonoBehaviour
     public string tipas;
     public int gynybaPriesMagija;
     public int galimasVaiksciotiAtstumas;
-
+    public int galimasPultiAtstumas;
     // Uzdeti ginklai ir sarvai
     private Ginklai ginklas;
     private Sarvai sarvai;
@@ -22,13 +22,17 @@ public class Unit : MonoBehaviour
     public bool arPasirinktas;
     public bool arYraArenoje;
     public bool arPriklausoZaidejui;
-
+    public bool arBaigeJudeti;
     public float judejimoGreitis;
     
     private void Awake()
     {
         player = FindObjectOfType<Player>();
         gameMaster = FindObjectOfType<GameMaster>();
+    }
+    private void Update()
+    {
+        
     }
     private void OnMouseDown()
     {
@@ -37,6 +41,7 @@ public class Unit : MonoBehaviour
         {
 
             arPasirinktas = !arPasirinktas;
+
             if (!arPasirinktas)
             {
                 player.unit = null;
@@ -48,8 +53,13 @@ public class Unit : MonoBehaviour
                     
                     player.unit = this;
                     GalimiLangeliai();
+                    
                 }
-
+               
+            }
+            if (!arGalimaJudinti && arGaliPulti)
+            {
+                GalimiPuolimoLangeliai();
             }
         }
         
@@ -64,7 +74,7 @@ public class Unit : MonoBehaviour
             if (this.transform.position.x == tile.transform.position.x && this.transform.position.y == tile.transform.position.y)
             {
                 player.dabartinisLangelis = tile;
-               
+                
             }
 
             if (Mathf.Abs(transform.position.x - tile.transform.position.x) + Mathf.Abs(transform.position.y - tile.transform.position.y) <= galimasVaiksciotiAtstumas && tile.arTusciasLangelis)
@@ -75,5 +85,17 @@ public class Unit : MonoBehaviour
             }
         }
     }
-
+    public void GalimiPuolimoLangeliai()
+    {
+        foreach (Unit unit in FindObjectsOfType<Unit>())
+        {
+              if (Mathf.Abs(transform.position.x - unit.transform.position.x) + Mathf.Abs(transform.position.y - unit.transform.position.y) <= galimasPultiAtstumas  && !unit.arPriklausoZaidejui)
+              {
+                      player.ZaidejoPriesai.Add(unit);
+                      Debug.Log(unit.transform.position.x);
+                      Debug.Log(unit.transform.position.y);
+                      Debug.Log("///////////////////");
+              }
+        }
+    }
 }
