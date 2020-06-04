@@ -17,13 +17,11 @@ public class GameMaster : MonoBehaviour
     public Color kariuomenesEjimoSpalva;
     public Color kariuomenesEjimoSpalvaUzvedusPele;
     public Color kariuomenesPuolimoSpalva;
-    //
-    [SerializeField]
-    private Text laikas;
-    [SerializeField]
-    private Text auksiniai;
-    [SerializeField]
-    private Text kienoEjimas;
+    
+
+    public Text laikas;
+    public Text auksiniai;
+    public Text kienoEjimas;
 
     // Kariuomeniu prefab
     public GameObject pestininkas;

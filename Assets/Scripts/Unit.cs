@@ -8,6 +8,7 @@ public class Unit : MonoBehaviour
     public int ataka;
     public int gynybaPriesPestininkus;
     public int gynybaPriesRaitus;
+    public int gyvybes;
     public string tipas;
     public int gynybaPriesMagija;
     public int galimasVaiksciotiAtstumas;
@@ -39,8 +40,10 @@ public class Unit : MonoBehaviour
         gameMaster.IsvalytiPasirinktusLangelius();
         if (gameMaster.arZaidejoEjimas() && arPriklausoZaidejui)
         {
-
-            arPasirinktas = !arPasirinktas;
+            
+              arPasirinktas = !arPasirinktas;
+            
+            
 
             if (!arPasirinktas)
             {
@@ -48,18 +51,44 @@ public class Unit : MonoBehaviour
             }
             else
             {
-                if (arGalimaJudinti)
+                if (arGalimaJudinti || arGaliPulti)
                 {
                     
                     player.unit = this;
-                    GalimiLangeliai();
                     
+                    
+                }
+                if (arGalimaJudinti)
+                {
+                    GalimiLangeliai();
                 }
                
             }
-            if (!arGalimaJudinti && arGaliPulti)
-            {
+            if (player.unit != null && player.unit.arGaliPulti)
+            { // puolimas
                 GalimiPuolimoLangeliai();
+                GalimiPultiPriesai();
+                player.arPuolimoFaze = true;
+                Debug.Log("puolimo faze prasideda");
+            }
+            if (player.unit == null)
+            {
+                Debug.Log("player unit null");
+            }
+            
+          
+           
+        }
+        else
+        {
+            if (player.unit != null && player.arPuolimoFaze && player.unit.arGaliPulti && player.PriesaiEsantysNetoli.Count > 0 && !arPriklausoZaidejui)
+            {
+                Debug.Log("KIEK PRIESU LISTE: " + player.PriesaiEsantysNetoli.Count);
+                //Puolamas priesas
+                Debug.Log("x: " + transform.position.x + " y: " + transform.position.y);
+                Debug.Log("Ivyko puolimas");
+                player.arPuolimoFaze = false;
+                player.unit.arGaliPulti = false;
             }
         }
         
@@ -87,15 +116,63 @@ public class Unit : MonoBehaviour
     }
     public void GalimiPuolimoLangeliai()
     {
+        player.PriesaiEsantysNetoli.Clear();
         foreach (Unit unit in FindObjectsOfType<Unit>())
         {
               if (Mathf.Abs(transform.position.x - unit.transform.position.x) + Mathf.Abs(transform.position.y - unit.transform.position.y) <= galimasPultiAtstumas  && !unit.arPriklausoZaidejui)
               {
-                      player.ZaidejoPriesai.Add(unit);
-                      Debug.Log(unit.transform.position.x);
-                      Debug.Log(unit.transform.position.y);
-                      Debug.Log("///////////////////");
+                      player.PriesaiEsantysNetoli.Add(unit);
               }
         }
     }
+    public void GalimiPultiPriesai()
+    {
+        foreach (var tile in FindObjectsOfType<Tile>())
+        {
+            foreach (var item in player.PriesaiEsantysNetoli)
+            {
+                if (tile.transform.position.x == item.transform.position.x && tile.transform.position.y == item.transform.position.y)
+                {
+                    var col = tile.GetComponent<SpriteRenderer>();
+                    col.color = gameMaster.kariuomenesPuolimoSpalva;
+                    tile.arAntLangelioEsantiPriesaGalimaPulti = true;
+                }
+            }
+        }
+        
+    }
+    private float AtakosPaskaiciavimas(Unit kasPuola, Unit kaPuola)
+    {
+        if (kasPuola.tipas.Equals("Pestininkas"))
+        {
+            return kasPuola.ataka - kaPuola.gynybaPriesPestininkus;
+        }
+        else if (kasPuola.tipas.Equals("Raitininkas"))
+        {
+            return kasPuola.ataka - kaPuola.gynybaPriesRaitus;
+        }
+        else if (kasPuola.tipas.Equals("Magija"))
+        {
+            return kasPuola.ataka - kaPuola.gynybaPriesMagija;
+        }
+        else
+        {
+            Debug.Log("Toks puolancio kario tipas neegzistuoja...");
+            return 0;
+        }
+        
+    }
+    private float Gyvybes(Unit kasPuola, Unit kaPuola)
+    {
+        return kaPuola.gyvybes - AtakosPaskaiciavimas(kasPuola, kaPuola);
+    }
+    public void Puolimas(Unit kasPuola, Unit kaPuola)
+    {
+        // Zaidejas puola priesa
+        Gyvybes(kasPuola, kaPuola);
+        // Priesas puola atgal jei tik yra atakos range
+
+
+    }
+    
 }

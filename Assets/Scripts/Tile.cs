@@ -12,6 +12,7 @@ public class Tile : MonoBehaviour
     public bool arPasirinktas;
     private bool galimasEjimas;
     public bool arTusciasLangelis = true;
+    public bool arAntLangelioEsantiPriesaGalimaPulti;
     private void Start()
     {
         gameMaster = FindObjectOfType<GameMaster>();
@@ -57,14 +58,15 @@ public class Tile : MonoBehaviour
         {
             sprite.color = gameMaster.kariuomenesEjimoSpalvaUzvedusPele;
         }
-        else if(!arTusciasLangelis && player.unit.arGaliPulti)
+        if(arAntLangelioEsantiPriesaGalimaPulti)
         {
-            //sprite.color = gameMaster.kariuomenesPuolimoSpalva;
+            sprite.color = gameMaster.kariuomenesPuolimoSpalva;
         }
         if (player.arPestininkasRankoje && arTusciasLangelis)
         {
             sprite.color = gameMaster.kariuomenesEjimoSpalva;
         }
+       
 
     }
     private void OnMouseExit()
@@ -77,13 +79,17 @@ public class Tile : MonoBehaviour
         {
             sprite.color = gameMaster.kariuomenesEjimoSpalva;
         }
+        if (arAntLangelioEsantiPriesaGalimaPulti)
+        {
+            sprite.color = gameMaster.kariuomenesPuolimoSpalva;
+        }
     }
     private bool GalimasEjimas()
     {
 
         if (player.unit != null && Mathf.Abs(player.unit.transform.position.x - this.transform.position.x) + Mathf.Abs(player.unit.transform.position.y - this.transform.position.y) <= player.unit.galimasVaiksciotiAtstumas)
         {
-            if (this.arTusciasLangelis)
+            if (this.arTusciasLangelis && player.unit.arGalimaJudinti)
             {
                 return true;
             }
@@ -141,9 +147,10 @@ public class Tile : MonoBehaviour
         player.unit.arBaigeJudeti = true;
         player.unit.transform.position = new Vector3(player.unit.transform.position.x, player.unit.transform.position.y, -5f);
         player.unit.arGalimaJudinti = false;
+        player.unit.arGaliPulti = true;
         player.unit.GalimiPuolimoLangeliai();
         gameMaster.IsvalytiPasirinktusLangelius();
-        player.unit = null;
+        
         if (player.dabartinisLangelis != null)
         {
             player.dabartinisLangelis.arTusciasLangelis = true;
