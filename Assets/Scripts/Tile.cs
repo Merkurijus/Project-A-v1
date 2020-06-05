@@ -23,6 +23,38 @@ public class Tile : MonoBehaviour
     private void OnMouseDown()
     {
 
+        PadedamasKarys();
+        PaspaustaEiti();
+    }
+    private void OnMouseOver()
+    {
+        UzvedamiLangeliai(gameMaster.langelioSpalvaUzvedusPele, gameMaster.kariuomenesEjimoSpalvaUzvedusPele, gameMaster.kariuomenesPuolimoSpalva, gameMaster.kariuomenesEjimoSpalva);
+    }
+    private void OnMouseExit()
+    {
+        UzvedamiLangeliai(dabartineSpalva, gameMaster.kariuomenesEjimoSpalva, gameMaster.kariuomenesPuolimoSpalva, dabartineSpalva);
+    }
+    void UzvedamiLangeliai(Color dabartineSpalva, Color galimoEjimoSpalva, Color galimoPuolimoSpalva, Color dedamoKarioSpalva)
+    {
+        if (player.unit == null)
+        {
+            sprite.color = dabartineSpalva;
+        }
+        else if (GalimasEjimas())
+        {
+            sprite.color = galimoEjimoSpalva;
+        }
+        if (arAntLangelioEsantiPriesaGalimaPulti)
+        {
+            sprite.color = galimoPuolimoSpalva;
+        }
+        if (player.arKarysRankoje && arTusciasLangelis)
+        {
+            sprite.color = dedamoKarioSpalva;
+        }
+    }
+    void PadedamasKarys()
+    {
         if (player.rankojeUnit != null && arTusciasLangelis)
         {
             var u = Instantiate(gameMaster.pestininkas);
@@ -31,57 +63,8 @@ public class Tile : MonoBehaviour
             var unitClass = u.GetComponent<Unit>();
             unitClass.arPriklausoZaidejui = true;
             player.rankojeUnit = null;
-            player.arPestininkasRankoje = false;
+            player.arKarysRankoje = false;
             arTusciasLangelis = false;
-
-
-        }
-        if (player.unit != null && player.unit.arGaliPulti == true)
-        {
-            // gameMaster.paryskintasLangelis.SetActive(true);
-            // gameMaster.paryskintasLangelis.transform.position = this.transform.position;
-
-        }
-        else
-        {
-            //gameMaster.paryskintasLangelis.SetActive(false);
-        }
-        PaspaustaEiti();
-    }
-    private void OnMouseOver()
-    {
-        if (player.unit == null)
-        {
-            sprite.color = gameMaster.langelioSpalvaUzvedusPele;
-        }
-        else if (GalimasEjimas())
-        {
-            sprite.color = gameMaster.kariuomenesEjimoSpalvaUzvedusPele;
-        }
-        if(arAntLangelioEsantiPriesaGalimaPulti)
-        {
-            sprite.color = gameMaster.kariuomenesPuolimoSpalva;
-        }
-        if (player.arPestininkasRankoje && arTusciasLangelis)
-        {
-            sprite.color = gameMaster.kariuomenesEjimoSpalva;
-        }
-       
-
-    }
-    private void OnMouseExit()
-    {
-        if (player.unit == null)
-        {
-            sprite.color = dabartineSpalva;
-        }
-        else if (GalimasEjimas())
-        {
-            sprite.color = gameMaster.kariuomenesEjimoSpalva;
-        }
-        if (arAntLangelioEsantiPriesaGalimaPulti)
-        {
-            sprite.color = gameMaster.kariuomenesPuolimoSpalva;
         }
     }
     private bool GalimasEjimas()
@@ -128,8 +111,6 @@ public class Tile : MonoBehaviour
         if (GalimasEjimas() && player.unit != null && player.unit.arGalimaJudinti == true && arTusciasLangelis)
         {
             StartCoroutine(PradetiJudejima());
-            
-
         }
     }
     IEnumerator PradetiJudejima()

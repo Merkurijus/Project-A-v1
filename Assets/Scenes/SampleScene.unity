@@ -2949,9 +2949,10 @@ MonoBehaviour:
   dabartinisLangelis: {fileID: 0}
   naujasLangelis: {fileID: 0}
   rankojeUnit: {fileID: 0}
-  ZaidejoPriesai: {fileID: 0}
+  PriesaiEsantysNetoli: []
   arPestininkasRankoje: 0
   arZaidejoEjimas: 0
+  arPuolimoFaze: 0
 --- !u!4 &886043238
 Transform:
   m_ObjectHideFlags: 0
@@ -5990,7 +5991,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u017Daid\u0117jo \u0117jimas"
+  m_Text: '.
+
+'
 --- !u!222 &1861053114
 CanvasRenderer:
   m_ObjectHideFlags: 0

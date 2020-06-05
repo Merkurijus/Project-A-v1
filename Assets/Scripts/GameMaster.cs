@@ -40,6 +40,11 @@ public class GameMaster : MonoBehaviour
     private void Update()
     {
 
+        ZaidimoPradzia();
+       
+    }
+    void ZaidimoPradzia()
+    {
         if (arZaidimasPrasidejo && dabartinisLaikas > 0)
         {
             dabartinisLaikas -= Time.deltaTime;
@@ -53,7 +58,6 @@ public class GameMaster : MonoBehaviour
         {
             BaigtiEjima();
         }
-       
     }
     public void IsvalytiPasirinktusLangelius()
     {
@@ -68,27 +72,21 @@ public class GameMaster : MonoBehaviour
     }
     public void PradetiEjima()
     {
-        
             int ejimas = Random.Range(0, 1);
             player.arZaidejoEjimas = (ejimas == 1) ? true : false;
             arZaidimasPrasidejo = true;
             dabartinisLaikas = ejimoLaikas;
-
             AtnaujintiKienoEjimasVarda();
-        
-        
 
     }
     public void BaigtiEjima()
     {
-        
             player.arZaidejoEjimas = (player.arZaidejoEjimas == true) ? false : true;
             dabartinisLaikas = ejimoLaikas;
             AtnaujintiKienoEjimasVarda();
             AtnaujintiKariuLeidimus(player.arZaidejoEjimas);
             IsvalytiPasirinktusLangelius();
             player.unit = null;
-        
     }
     public void AtnaujintiAuksiniuTeksta()
     {
