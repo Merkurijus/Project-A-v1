@@ -1255,6 +1255,11 @@ PrefabInstance:
       propertyPath: arPriklausoZaidejui
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7432072958424633047, guid: 76ba5f258d37cf2438ade4667207ac75,
+        type: 3}
+      propertyPath: gyvybes
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76ba5f258d37cf2438ade4667207ac75, type: 3}
 --- !u!4 &426325030 stripped
@@ -2950,7 +2955,7 @@ MonoBehaviour:
   naujasLangelis: {fileID: 0}
   rankojeUnit: {fileID: 0}
   PriesaiEsantysNetoli: []
-  arPestininkasRankoje: 0
+  arKarysRankoje: 0
   arZaidejoEjimas: 0
   arPuolimoFaze: 0
 --- !u!4 &886043238
@@ -3662,6 +3667,11 @@ PrefabInstance:
         type: 3}
       propertyPath: arPriklausoZaidejui
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7432072958424633047, guid: 76ba5f258d37cf2438ade4667207ac75,
+        type: 3}
+      propertyPath: gyvybes
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76ba5f258d37cf2438ade4667207ac75, type: 3}

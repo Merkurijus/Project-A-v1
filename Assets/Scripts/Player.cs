@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public bool arKarysRankoje;
     public bool arZaidejoEjimas;
     public bool arPuolimoFaze;
+    public bool arJauPuole;
     public int TuriVienosRusiesKariu(string pavadinimas)
     {
         int viso = 0;

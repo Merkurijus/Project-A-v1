@@ -15,48 +15,43 @@ public class PridetiKariuomeneUI : MonoBehaviour
         kainos = FindObjectOfType<Kainos>();
         gameMaster = FindObjectOfType<GameMaster>();
         player = FindObjectOfType<Player>();
+        pirktiKariUI.SetActive(true);
     }
-    private void Update()
-    {
-
-        if (player.arKarysRankoje == false)
-        {
-            pirktiKariUI.SetActive(true);
-        }
-        else
-        {
-            pirktiKariUI.SetActive(false);
-        }
-    }
+  
     // Bendras kariu pirkimo/padejimo metodas
     void PirktiKari(int kaina, GameObject karys)
     {
         
         if (gameMaster.arZaidejoEjimas())
         {
-            if (kaina <= player.auksiniai && player.arKarysRankoje == false)
+            if (kaina <= player.auksiniai && player.arKarysRankoje == false && !player.arJauPuole)
             {
                 player.zaidejoKariuomene.Add(karys);
                 player.auksiniai -= kaina;
                 player.arKarysRankoje = true;
-                pirktiKariUI.SetActive(false);
                 PadetiKari(karys);
+                player.rankojeUnit = karys.GetComponent<Unit>();
                 gameMaster.AtnaujintiAuksiniuTeksta();
+                gameMaster.IsvalytiPasirinktusLangelius();
+                pirktiKariUI.SetActive(false);
             }
             else
             {
                 Debug.Log("neuztenka auksiniu");
             }
         }
+        
     }
     void PadetiKari(GameObject karys)
     {
-        if (player.rankojeUnit == null && gameMaster.arZaidejoEjimas())
+        if (player.rankojeUnit != null && gameMaster.arZaidejoEjimas() && !player.arJauPuole)
         {
             player.rankojeUnit = karys.GetComponent<Unit>();
-            player.unit = null;
+            player.unit = karys.GetComponent<Unit>();
             gameMaster.IsvalytiPasirinktusLangelius();
+            pirktiKariUI.SetActive(true);
         }
+        
     }
     
     // Kuriami nauji kariai

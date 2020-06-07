@@ -87,6 +87,7 @@ public class GameMaster : MonoBehaviour
             AtnaujintiKariuLeidimus(player.arZaidejoEjimas);
             IsvalytiPasirinktusLangelius();
             player.unit = null;
+            player.arJauPuole = false;
     }
     public void AtnaujintiAuksiniuTeksta()
     {
@@ -122,6 +123,16 @@ public class GameMaster : MonoBehaviour
                 item.arGaliPulti = true;
                 item.arPasirinktas = false;
                 item.arBaigeJudeti = false;
+            }
+        }
+    }
+    public void SunaikintiUnit()
+    {
+        foreach (var item in FindObjectsOfType<Unit>())
+        {
+            if (item.gyvybes <= 0)
+            {
+
             }
         }
     }

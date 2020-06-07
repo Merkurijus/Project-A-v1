@@ -6,7 +6,7 @@ public class Tile : MonoBehaviour
 {
     private GameMaster gameMaster;
     private Player player;
-
+    private PridetiKariuomeneUI pridetiKariuomeneUI;
     private SpriteRenderer sprite;
     public Color dabartineSpalva;
     public bool arPasirinktas;
@@ -19,6 +19,7 @@ public class Tile : MonoBehaviour
         player = FindObjectOfType<Player>();
         sprite = GetComponent<SpriteRenderer>();
         dabartineSpalva = sprite.color;
+        pridetiKariuomeneUI = FindObjectOfType<PridetiKariuomeneUI>();
     }
     private void OnMouseDown()
     {
@@ -32,7 +33,7 @@ public class Tile : MonoBehaviour
     }
     private void OnMouseExit()
     {
-        UzvedamiLangeliai(dabartineSpalva, gameMaster.kariuomenesEjimoSpalva, gameMaster.kariuomenesPuolimoSpalva, dabartineSpalva);
+        UzvedamiLangeliai(dabartineSpalva, gameMaster.kariuomenesEjimoSpalva, gameMaster.kariuomenesEjimoSpalva, dabartineSpalva);
     }
     void UzvedamiLangeliai(Color dabartineSpalva, Color galimoEjimoSpalva, Color galimoPuolimoSpalva, Color dedamoKarioSpalva)
     {
@@ -44,10 +45,7 @@ public class Tile : MonoBehaviour
         {
             sprite.color = galimoEjimoSpalva;
         }
-        if (arAntLangelioEsantiPriesaGalimaPulti)
-        {
-            sprite.color = galimoPuolimoSpalva;
-        }
+        
         if (player.arKarysRankoje && arTusciasLangelis)
         {
             sprite.color = dedamoKarioSpalva;
@@ -63,14 +61,16 @@ public class Tile : MonoBehaviour
             var unitClass = u.GetComponent<Unit>();
             unitClass.arPriklausoZaidejui = true;
             player.rankojeUnit = null;
+            player.unit = null;
             player.arKarysRankoje = false;
             arTusciasLangelis = false;
+            pridetiKariuomeneUI.pirktiKariUI.SetActive(true);
         }
     }
     private bool GalimasEjimas()
     {
 
-        if (player.unit != null && Mathf.Abs(player.unit.transform.position.x - this.transform.position.x) + Mathf.Abs(player.unit.transform.position.y - this.transform.position.y) <= player.unit.galimasVaiksciotiAtstumas)
+        if (player.unit != null && Mathf.Abs(player.unit.transform.position.x - this.transform.position.x) + Mathf.Abs(player.unit.transform.position.y - this.transform.position.y) <= player.unit.galimasVaiksciotiAtstumas && !player.arJauPuole)
         {
             if (this.arTusciasLangelis && player.unit.arGalimaJudinti)
             {
@@ -129,9 +129,15 @@ public class Tile : MonoBehaviour
         player.unit.transform.position = new Vector3(player.unit.transform.position.x, player.unit.transform.position.y, -5f);
         player.unit.arGalimaJudinti = false;
         player.unit.arGaliPulti = true;
-        player.unit.GalimiPuolimoLangeliai();
-        gameMaster.IsvalytiPasirinktusLangelius();
         
+       
+        
+        player.unit.GalimiPuolimoLangeliai();
+        
+        player.arPuolimoFaze = true;
+        gameMaster.IsvalytiPasirinktusLangelius();
+        player.unit.GalimiPultiPriesai();
+
         if (player.dabartinisLangelis != null)
         {
             player.dabartinisLangelis.arTusciasLangelis = true;
