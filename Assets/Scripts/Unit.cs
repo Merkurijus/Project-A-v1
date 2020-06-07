@@ -93,6 +93,7 @@ public class Unit : MonoBehaviour
                 player.unit = null;
                 player.PriesaiEsantysNetoli.Clear();
                 gameMaster.IsvalytiPasirinktusLangelius();
+                IsvalytiSunaikintoKarioLangeli();
                 player.arJauPuole = true;
             }
         }
@@ -148,17 +149,19 @@ public class Unit : MonoBehaviour
     }
     private float AtakosPaskaiciavimas(Unit kasPuola, Unit kaPuola)
     {
+        
         if (kasPuola.tipas.Equals("pestininkas"))
         {
-            return kasPuola.ataka - kaPuola.gynybaPriesPestininkus;
+            
+            return Ataka(kasPuola.ataka, kaPuola.gynybaPriesPestininkus);
         }
         else if (kasPuola.tipas.Equals("raitininkas"))
         {
-            return kasPuola.ataka - kaPuola.gynybaPriesRaitus;
+            return Ataka(kasPuola.ataka, kaPuola.gynybaPriesRaitus);
         }
         else if (kasPuola.tipas.Equals("magija"))
         {
-            return kasPuola.ataka - kaPuola.gynybaPriesMagija;
+            return Ataka(kasPuola.ataka, kaPuola.gynybaPriesMagija);
         }
         else
         {
@@ -167,20 +170,31 @@ public class Unit : MonoBehaviour
         }
         
     }
-    private float Gyvybes(Unit kasPuola, Unit kaPuola)
+   public float Ataka(int kasPuolaAtaka, int gynyba)
     {
-        return kaPuola.gyvybes - AtakosPaskaiciavimas(kasPuola, kaPuola);
+        return (kasPuolaAtaka - gynyba) > 0 ? kasPuolaAtaka - gynyba : 0;
     }
     public void Puolimas(Unit kasPuola, Unit kaPuola)
     {
         Debug.Log("Puolimo pradzia");
         // Zaidejas puola priesa
-        Debug.Log("Padaryta zala priesui: " + Gyvybes(kasPuola, kaPuola));
+        Debug.Log("Padaryta zala priesui: " + AtakosPaskaiciavimas(kasPuola, kaPuola));
+        kaPuola.gyvybes -= AtakosPaskaiciavimas(kasPuola, kaPuola);
+        gameMaster.IsvalytiPasirinktusLangelius();
+        gameMaster.SunaikintiUnit();
         
-        kaPuola.gyvybes -= Gyvybes(kasPuola, kaPuola);
-        
-
 
     }
-    
+
+    public void IsvalytiSunaikintoKarioLangeli()
+    {
+        foreach (var langelis in FindObjectsOfType<Tile>())
+        {
+            langelis.GetComponent<SpriteRenderer>().color = langelis.dabartineSpalva;
+            if (langelis.transform.position.x == this.transform.position.x && langelis.transform.position.y == this.transform.position.y)
+            {
+                langelis.arTusciasLangelis = true;
+            }
+        }
+    }
 }

@@ -97,10 +97,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pavadinimas: 
-  ataka: 1
+  ataka: 3
   gynybaPriesPestininkus: 2
   gynybaPriesRaitus: 1
-  gyvybes: 0
+  gyvybes: 10
   tipas: pestininkas
   gynybaPriesMagija: 5
   galimasVaiksciotiAtstumas: 2

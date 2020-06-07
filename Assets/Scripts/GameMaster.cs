@@ -128,13 +128,18 @@ public class GameMaster : MonoBehaviour
     }
     public void SunaikintiUnit()
     {
-        foreach (var item in FindObjectsOfType<Unit>())
+        foreach (var item in FindObjectsOfType<GameObject>())
         {
-            if (item.gyvybes <= 0)
+            Unit karys = item.GetComponent<Unit>();
+            if (item.GetComponent<Unit>() != null)
             {
-
+                if (karys.gyvybes <= 0)
+                {
+                    Destroy(item);
+                }
             }
         }
+        
     }
 }
 
