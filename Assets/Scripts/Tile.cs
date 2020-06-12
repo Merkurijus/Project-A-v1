@@ -41,19 +41,19 @@ public class Tile : MonoBehaviour
         {
             sprite.color = dabartineSpalva;
         }
-        else if (GalimasEjimas())
+        else if (GalimasEjimas() && player.arZaidejoEjimas)
         {
             sprite.color = galimoEjimoSpalva;
         }
         
-        if (player.arKarysRankoje && arTusciasLangelis)
+        if (player.arKarysRankoje && arTusciasLangelis && transform.position.y <= 3 && player.arZaidejoEjimas)
         {
             sprite.color = dedamoKarioSpalva;
         }
     }
     void PadedamasKarys()
     {
-        if (player.rankojeUnit != null && arTusciasLangelis)
+        if (player.rankojeUnit != null && arTusciasLangelis && transform.position.y <=3)
         {
             var u = Instantiate(gameMaster.pestininkas);
             u.transform.position = this.transform.position;
@@ -108,42 +108,46 @@ public class Tile : MonoBehaviour
     void PaspaustaEiti()
     {
 
-        if (GalimasEjimas() && player.unit != null && player.unit.arGalimaJudinti == true && arTusciasLangelis)
+        if (GalimasEjimas() && player.unit != null && player.unit.arGalimaJudinti == true && arTusciasLangelis && player.arZaidejoEjimas)
         {
-            StartCoroutine(PradetiJudejima());
+            StartCoroutine(PradetiJudejima(player.unit, transform.position));
+            Judejimas(player.unit);
         }
     }
-    IEnumerator PradetiJudejima()
+    public IEnumerator PradetiJudejima(Unit unit, Vector3 kur)
     {
-        while (player.unit.transform.position.x != transform.position.x)
+        while (unit.transform.position.x != kur.x)
         {
-            player.unit.transform.position = Vector2.MoveTowards(player.unit.transform.position, new Vector2(transform.position.x, player.unit.transform.position.y), player.unit.judejimoGreitis * Time.deltaTime);
+            unit.transform.position = Vector2.MoveTowards(unit.transform.position, new Vector2(kur.x, unit.transform.position.y), unit.judejimoGreitis * Time.deltaTime);
             yield return null;
         }
-        while (player.unit.transform.position.y != transform.position.y)
+        while (unit.transform.position.y != kur.y)
         {
-            player.unit.transform.position = Vector2.MoveTowards(player.unit.transform.position, new Vector2(player.unit.transform.position.x, transform.position.y), player.unit.judejimoGreitis * Time.deltaTime);
+            unit.transform.position = Vector2.MoveTowards(unit.transform.position, new Vector2(unit.transform.position.x, kur.y), unit.judejimoGreitis * Time.deltaTime);
             yield return null;
         }
-        player.unit.arBaigeJudeti = true;
-        player.unit.transform.position = new Vector3(player.unit.transform.position.x, player.unit.transform.position.y, -5f);
-        player.unit.arGalimaJudinti = false;
-        player.unit.arGaliPulti = true;
         
-       
-        
-        player.unit.GalimiPuolimoLangeliai();
-        
+    }
+    private void Judejimas(Unit unit)
+    {
+        unit.arBaigeJudeti = true;
+        unit.transform.position = new Vector3(unit.transform.position.x, unit.transform.position.y, -5f);
+        unit.arGalimaJudinti = false;
+        unit.arGaliPulti = true;
+
+
+
+        unit.GalimiPuolimoLangeliai();
+
         player.arPuolimoFaze = true;
         gameMaster.IsvalytiPasirinktusLangelius();
-        player.unit.GalimiPultiPriesai();
+        unit.GalimiPultiPriesai();
 
         if (player.dabartinisLangelis != null)
         {
             player.dabartinisLangelis.arTusciasLangelis = true;
             player.dabartinisLangelis = this;
         }
-        
+
     }
-    
 }

@@ -65,20 +65,12 @@ public class Unit : MonoBehaviour
                 }
                
             }
-            if (player.unit != null && player.unit.arGaliPulti && !player.arJauPuole)
+            if (player.unit != null && player.unit.arGaliPulti && !player.arJauPuole && arBaigeJudeti)
             { // puolimas
                 
                 GalimiPuolimoLangeliai();
                 GalimiPultiPriesai();
                 }
-            
-            if (player.unit == null)
-            {
-                Debug.Log("player unit null");
-            }
-            
-          
-           
         }
         else
         {
@@ -92,7 +84,7 @@ public class Unit : MonoBehaviour
                 Puolimas(player.unit, this);
                 player.unit = null;
                 player.PriesaiEsantysNetoli.Clear();
-                gameMaster.IsvalytiPasirinktusLangelius();
+                
                 IsvalytiSunaikintoKarioLangeli();
                 player.arJauPuole = true;
             }
@@ -180,7 +172,7 @@ public class Unit : MonoBehaviour
         // Zaidejas puola priesa
         Debug.Log("Padaryta zala priesui: " + AtakosPaskaiciavimas(kasPuola, kaPuola));
         kaPuola.gyvybes -= AtakosPaskaiciavimas(kasPuola, kaPuola);
-        gameMaster.IsvalytiPasirinktusLangelius();
+        
         gameMaster.SunaikintiUnit();
         
 
@@ -191,10 +183,11 @@ public class Unit : MonoBehaviour
         foreach (var langelis in FindObjectsOfType<Tile>())
         {
             langelis.GetComponent<SpriteRenderer>().color = langelis.dabartineSpalva;
-            if (langelis.transform.position.x == this.transform.position.x && langelis.transform.position.y == this.transform.position.y)
+            if (langelis.transform.position.x == this.transform.position.x && langelis.transform.position.y == this.transform.position.y && this.gyvybes <= 0)
             {
                 langelis.arTusciasLangelis = true;
             }
+            
         }
     }
 }

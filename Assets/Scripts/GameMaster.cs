@@ -63,16 +63,22 @@ public class GameMaster : MonoBehaviour
     {
         foreach (var langelis in FindObjectsOfType<Tile>())
         {
-            langelis.GetComponent<SpriteRenderer>().color = langelis.dabartineSpalva;
-            if (player.unit != null && langelis.transform.position.x == player.unit.transform.position.x && langelis.transform.position.y == player.unit.transform.position.y)
+            foreach (var unit in FindObjectsOfType<Unit>())
             {
-                langelis.arTusciasLangelis = false;
+
+                langelis.GetComponent<SpriteRenderer>().color = langelis.dabartineSpalva;
+                if (langelis.transform.position.x == unit.transform.position.x && langelis.transform.position.y == unit.transform.position.y)
+                {
+                    langelis.arTusciasLangelis = false;
+                }
             }
         }
+
+        
     }
     public void PradetiEjima()
     {
-            int ejimas = Random.Range(0, 1);
+            int ejimas = 1;
             player.arZaidejoEjimas = (ejimas == 1) ? true : false;
             arZaidimasPrasidejo = true;
             dabartinisLaikas = ejimoLaikas;
@@ -136,6 +142,7 @@ public class GameMaster : MonoBehaviour
                 if (karys.gyvybes <= 0)
                 {
                     Destroy(item);
+                    IsvalytiPasirinktusLangelius();
                 }
             }
         }
