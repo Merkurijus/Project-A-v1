@@ -1160,6 +1160,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8312084239050268735, guid: df964642afc006149ba3d9d5aa5fb381,
+        type: 3}
+      propertyPath: dabartineSpalva.r
+      value: 0.2392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312084239050268735, guid: df964642afc006149ba3d9d5aa5fb381,
+        type: 3}
+      propertyPath: dabartineSpalva.g
+      value: 0.2392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312084239050268735, guid: df964642afc006149ba3d9d5aa5fb381,
+        type: 3}
+      propertyPath: dabartineSpalva.b
+      value: 0.2392157
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df964642afc006149ba3d9d5aa5fb381, type: 3}
 --- !u!4 &419968821 stripped
@@ -2567,6 +2582,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df964642afc006149ba3d9d5aa5fb381, type: 3}
+--- !u!1 &840645674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 840645675}
+  m_Layer: 0
+  m_Name: Zaidejai
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &840645675
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840645674}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.2250453, y: 2.2040405, z: -1.4882812}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1880807802}
+  - {fileID: 1312648404}
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &848628487
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2903,7 +2950,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 886043238}
-  - component: {fileID: 886043237}
   - component: {fileID: 886043236}
   - component: {fileID: 886043239}
   m_Layer: 0
@@ -2940,30 +2986,6 @@ MonoBehaviour:
   pestininkas: {fileID: 6171658344347322810, guid: 76ba5f258d37cf2438ade4667207ac75,
     type: 3}
   ejimoLaikas: 30
---- !u!114 &886043237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 886043235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16c04daa577f1114dbbc45cc8075d4ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  auksiniai: 100
-  zaidejoKariuomene: []
-  priesininkoKariuomene: []
-  unit: {fileID: 0}
-  dabartinisLangelis: {fileID: 0}
-  naujasLangelis: {fileID: 0}
-  rankojeUnit: {fileID: 0}
-  PriesaiEsantysNetoli: []
-  arKarysRankoje: 0
-  arZaidejoEjimas: 0
-  arPuolimoFaze: 0
-  arJauPuole: 0
 --- !u!4 &886043238
 Transform:
   m_ObjectHideFlags: 0
@@ -4232,6 +4254,62 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1233096009}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1312648403
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1312648404}
+  - component: {fileID: 1312648405}
+  m_Layer: 0
+  m_Name: priesas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1312648404
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1312648403}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 840645675}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1312648405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1312648403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16c04daa577f1114dbbc45cc8075d4ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  auksiniai: 100
+  zaidejoKariuomene: []
+  priesininkoKariuomene: []
+  unit: {fileID: 0}
+  dabartinisLangelis: {fileID: 0}
+  naujasLangelis: {fileID: 0}
+  rankojeUnit: {fileID: 0}
+  PriesaiEsantysNetoli: []
+  arKarysRankoje: 0
+  arZaidejoEjimas: 0
+  arPuolimoFaze: 0
+  arJauPuole: 0
+  arGalimaJudintiKitaKari: 0
 --- !u!4 &1324801631 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 119164703146575540, guid: df964642afc006149ba3d9d5aa5fb381,
@@ -4745,7 +4823,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1491821691 stripped
 Transform:
@@ -5011,7 +5089,7 @@ Transform:
   - {fileID: 430875927}
   - {fileID: 1929161223}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1525698650 stripped
 Transform:
@@ -6131,6 +6209,62 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1039642379}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1880807801
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1880807802}
+  - component: {fileID: 1880807803}
+  m_Layer: 0
+  m_Name: zaidejas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1880807802
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880807801}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 840645675}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1880807803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880807801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16c04daa577f1114dbbc45cc8075d4ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  auksiniai: 100
+  zaidejoKariuomene: []
+  priesininkoKariuomene: []
+  unit: {fileID: 0}
+  dabartinisLangelis: {fileID: 0}
+  naujasLangelis: {fileID: 0}
+  rankojeUnit: {fileID: 0}
+  PriesaiEsantysNetoli: []
+  arKarysRankoje: 0
+  arZaidejoEjimas: 0
+  arPuolimoFaze: 0
+  arJauPuole: 0
+  arGalimaJudintiKitaKari: 0
 --- !u!4 &1908216378 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 119164703146575540, guid: df964642afc006149ba3d9d5aa5fb381,
@@ -6241,7 +6375,7 @@ RectTransform:
   - {fileID: 1597292604}
   - {fileID: 665873917}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6822,6 +6956,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312084239050268735, guid: df964642afc006149ba3d9d5aa5fb381,
+        type: 3}
+      propertyPath: dabartineSpalva.r
+      value: 0.25882354
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312084239050268735, guid: df964642afc006149ba3d9d5aa5fb381,
+        type: 3}
+      propertyPath: dabartineSpalva.g
+      value: 0.25882354
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312084239050268735, guid: df964642afc006149ba3d9d5aa5fb381,
+        type: 3}
+      propertyPath: dabartineSpalva.b
+      value: 0.25882354
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312084239050268735, guid: df964642afc006149ba3d9d5aa5fb381,
+        type: 3}
+      propertyPath: dabartineSpalva.a
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df964642afc006149ba3d9d5aa5fb381, type: 3}

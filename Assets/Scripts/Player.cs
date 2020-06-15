@@ -13,11 +13,13 @@ public class Player : MonoBehaviour
     public Tile dabartinisLangelis;
     public Tile naujasLangelis;
     public Unit rankojeUnit;
+
     public List<Unit> PriesaiEsantysNetoli = new List<Unit>();
     public bool arKarysRankoje;
     public bool arZaidejoEjimas;
     public bool arPuolimoFaze;
     public bool arJauPuole;
+    public bool arGalimaJudintiKitaKari;
     public int TuriVienosRusiesKariu(string pavadinimas)
     {
         int viso = 0;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PridetiKariuomeneUI : MonoBehaviour
 {
-    private Player player;
+    private Player zaidejas;
     private Kainos kainos;
     private GameMaster gameMaster;
 
@@ -14,7 +14,7 @@ public class PridetiKariuomeneUI : MonoBehaviour
     {
         kainos = FindObjectOfType<Kainos>();
         gameMaster = FindObjectOfType<GameMaster>();
-        player = FindObjectOfType<Player>();
+        zaidejas = GameObject.Find("/Zaidejai/zaidejas").GetComponent<Player>();
         pirktiKariUI.SetActive(true);
     }
   
@@ -24,13 +24,13 @@ public class PridetiKariuomeneUI : MonoBehaviour
         
         if (gameMaster.arZaidejoEjimas())
         {
-            if (kaina <= player.auksiniai && player.arKarysRankoje == false && !player.arJauPuole)
+            if (kaina <= zaidejas.auksiniai && zaidejas.arKarysRankoje == false && !zaidejas.arJauPuole)
             {
-                player.zaidejoKariuomene.Add(karys);
-                player.auksiniai -= kaina;
-                player.arKarysRankoje = true;
+                zaidejas.zaidejoKariuomene.Add(karys);
+                zaidejas.auksiniai -= kaina;
+                zaidejas.arKarysRankoje = true;
                 PadetiKari(karys);
-                player.rankojeUnit = karys.GetComponent<Unit>();
+                zaidejas.rankojeUnit = karys.GetComponent<Unit>();
                 gameMaster.AtnaujintiAuksiniuTeksta();
                 gameMaster.IsvalytiPasirinktusLangelius();
                 pirktiKariUI.SetActive(false);
@@ -44,10 +44,10 @@ public class PridetiKariuomeneUI : MonoBehaviour
     }
     void PadetiKari(GameObject karys)
     {
-        if (player.rankojeUnit != null && gameMaster.arZaidejoEjimas() && !player.arJauPuole)
+        if (zaidejas.rankojeUnit != null && gameMaster.arZaidejoEjimas() && !zaidejas.arJauPuole)
         {
-            player.rankojeUnit = karys.GetComponent<Unit>();
-            player.unit = karys.GetComponent<Unit>();
+            zaidejas.rankojeUnit = karys.GetComponent<Unit>();
+            zaidejas.unit = karys.GetComponent<Unit>();
             gameMaster.IsvalytiPasirinktusLangelius();
             pirktiKariUI.SetActive(true);
         }

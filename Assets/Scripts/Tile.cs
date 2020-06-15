@@ -5,7 +5,8 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     private GameMaster gameMaster;
-    private Player player;
+    private Player zaidejas;
+    private Player priesas;
     private PridetiKariuomeneUI pridetiKariuomeneUI;
     private SpriteRenderer sprite;
     public Color dabartineSpalva;
@@ -16,7 +17,8 @@ public class Tile : MonoBehaviour
     private void Start()
     {
         gameMaster = FindObjectOfType<GameMaster>();
-        player = FindObjectOfType<Player>();
+        zaidejas = GameObject.Find("/Zaidejai/zaidejas").GetComponent<Player>();
+        priesas = GameObject.Find("/Zaidejai/priesas").GetComponent<Player>();
         sprite = GetComponent<SpriteRenderer>();
         dabartineSpalva = sprite.color;
         pridetiKariuomeneUI = FindObjectOfType<PridetiKariuomeneUI>();
@@ -24,8 +26,8 @@ public class Tile : MonoBehaviour
     private void OnMouseDown()
     {
 
-        PadedamasKarys();
-        PaspaustaEiti();
+        PadedamasKarys(zaidejas);
+        PaspaustaEiti(zaidejas, this);
     }
     private void OnMouseOver()
     {
@@ -37,21 +39,21 @@ public class Tile : MonoBehaviour
     }
     void UzvedamiLangeliai(Color dabartineSpalva, Color galimoEjimoSpalva, Color galimoPuolimoSpalva, Color dedamoKarioSpalva)
     {
-        if (player.unit == null)
+        if (zaidejas.unit == null)
         {
             sprite.color = dabartineSpalva;
         }
-        else if (GalimasEjimas() && player.arZaidejoEjimas)
+        else if (GalimasEjimas(zaidejas) && zaidejas.arZaidejoEjimas)
         {
             sprite.color = galimoEjimoSpalva;
         }
         
-        if (player.arKarysRankoje && arTusciasLangelis && transform.position.y <= 3 && player.arZaidejoEjimas)
+        if (zaidejas.arKarysRankoje && arTusciasLangelis && transform.position.y <= 3 && zaidejas.arZaidejoEjimas)
         {
             sprite.color = dedamoKarioSpalva;
         }
     }
-    void PadedamasKarys()
+    void PadedamasKarys(Player player)
     {
         if (player.rankojeUnit != null && arTusciasLangelis && transform.position.y <=3)
         {
@@ -67,19 +69,12 @@ public class Tile : MonoBehaviour
             pridetiKariuomeneUI.pirktiKariUI.SetActive(true);
         }
     }
-    private bool GalimasEjimas()
+    private bool GalimasEjimas(Player player)
     {
-
         if (player.unit != null && Mathf.Abs(player.unit.transform.position.x - this.transform.position.x) + Mathf.Abs(player.unit.transform.position.y - this.transform.position.y) <= player.unit.galimasVaiksciotiAtstumas && !player.arJauPuole)
         {
-            if (this.arTusciasLangelis && player.unit.arGalimaJudinti)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (this.arTusciasLangelis && player.unit.arGalimaJudinti) return true;
+            else return false;
         }
         else
         {
@@ -87,67 +82,62 @@ public class Tile : MonoBehaviour
         }
 
     }
-    private bool GalimasPuolimas()
-    {
-        if (player.unit != null && Mathf.Abs(player.unit.transform.position.x - this.transform.position.x) + Mathf.Abs(player.unit.transform.position.y - this.transform.position.y) <= player.unit.galimasPultiAtstumas)
-        {
-            if (!this.arTusciasLangelis)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
-    void PaspaustaEiti()
+    public void PaspaustaEiti(Player player, Tile tile)
     {
 
-        if (GalimasEjimas() && player.unit != null && player.unit.arGalimaJudinti == true && arTusciasLangelis && player.arZaidejoEjimas)
+        if (GalimasEjimas(player) && player.unit != null && player.unit.arGalimaJudinti == true && tile.arTusciasLangelis && player.arZaidejoEjimas && player.arGalimaJudintiKitaKari)
         {
-            StartCoroutine(PradetiJudejima(player.unit, transform.position));
-            Judejimas(player.unit);
+            player.arGalimaJudintiKitaKari = false;
+            Debug.Log("kiek");
+            StartCoroutine(PradetiJudejima(player, this));
+            
+            
+            
         }
     }
-    public IEnumerator PradetiJudejima(Unit unit, Vector3 kur)
+    public IEnumerator PradetiJudejima(Player player, Tile kur)
     {
-        while (unit.transform.position.x != kur.x)
-        {
-            unit.transform.position = Vector2.MoveTowards(unit.transform.position, new Vector2(kur.x, unit.transform.position.y), unit.judejimoGreitis * Time.deltaTime);
-            yield return null;
-        }
-        while (unit.transform.position.y != kur.y)
-        {
-            unit.transform.position = Vector2.MoveTowards(unit.transform.position, new Vector2(unit.transform.position.x, kur.y), unit.judejimoGreitis * Time.deltaTime);
-            yield return null;
-        }
         
+        while (player.unit.transform.position.x != kur.transform.position.x)
+        {
+            player.unit.transform.position = Vector2.MoveTowards(player.unit.transform.position, new Vector2(kur.transform.position.x, player.unit.transform.position.y), player.unit.judejimoGreitis * Time.deltaTime);
+            yield return null;
+        }
+        while (player.unit.transform.position.y != kur.transform.position.y)
+        {
+            player.unit.transform.position = Vector2.MoveTowards(player.unit.transform.position, new Vector2(player.unit.transform.position.x, kur.transform.position.y), player.unit.judejimoGreitis * Time.deltaTime);
+            yield return null;
+        }
+       
+        if (ArKarysBaigeJudeti(player, this)) Judejimas(player);
+
+        yield return new WaitForSeconds(2f);
     }
-    private void Judejimas(Unit unit)
+    private bool ArKarysBaigeJudeti(Player player, Tile tile)
     {
-        unit.arBaigeJudeti = true;
-        unit.transform.position = new Vector3(unit.transform.position.x, unit.transform.position.y, -5f);
-        unit.arGalimaJudinti = false;
-        unit.arGaliPulti = true;
-
-
-
-        unit.GalimiPuolimoLangeliai();
+        if (player.unit.transform.position.x == tile.transform.position.x && player.unit.transform.position.y == player.unit.transform.position.y) return true;
+        return false;
+    }
+    private void Judejimas(Player player)
+    {
+        player.unit.arBaigeJudeti = true;
+        player.unit.transform.position = new Vector3(player.unit.transform.position.x, player.unit.transform.position.y, -5f);
+        player.unit.arGalimaJudinti = false;
+        player.unit.arGaliPulti = true;
+        player.arGalimaJudintiKitaKari = true;
+        player.unit.GalimiPuolimoLangeliai();
 
         player.arPuolimoFaze = true;
+        
+        Debug.Log("Baige judet");
         gameMaster.IsvalytiPasirinktusLangelius();
-        unit.GalimiPultiPriesai();
+        player.unit.GalimiPultiPriesai();
 
         if (player.dabartinisLangelis != null)
         {
             player.dabartinisLangelis.arTusciasLangelis = true;
             player.dabartinisLangelis = this;
         }
-
+        
     }
 }

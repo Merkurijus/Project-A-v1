@@ -13,10 +13,8 @@ public class Unit : MonoBehaviour
     public int gynybaPriesMagija;
     public int galimasVaiksciotiAtstumas;
     public int galimasPultiAtstumas;
-    // Uzdeti ginklai ir sarvai
-    private Ginklai ginklas;
-    private Sarvai sarvai;
-    private Player player;
+    
+    private Player zaidejas;
     private GameMaster gameMaster;
     public bool arGalimaJudinti;
     public bool arGaliPulti;
@@ -28,7 +26,8 @@ public class Unit : MonoBehaviour
     
     private void Awake()
     {
-        player = FindObjectOfType<Player>();
+        zaidejas = GameObject.Find("/Zaidejai/zaidejas").GetComponent<Player>();
+        
         gameMaster = FindObjectOfType<GameMaster>();
     }
     private void Update()
@@ -38,7 +37,7 @@ public class Unit : MonoBehaviour
     private void OnMouseDown()
     {
         gameMaster.IsvalytiPasirinktusLangelius();
-        if (gameMaster.arZaidejoEjimas() && arPriklausoZaidejui)
+        if (gameMaster.arZaidejoEjimas() && arPriklausoZaidejui && zaidejas.arGalimaJudintiKitaKari)
         {
             
               arPasirinktas = !arPasirinktas;
@@ -47,25 +46,25 @@ public class Unit : MonoBehaviour
 
             if (!arPasirinktas)
             {
-                player.unit = null;
+                zaidejas.unit = null;
             }
             else
             {
-                if (arGalimaJudinti || arGaliPulti && !player.arJauPuole)
+                if (arGalimaJudinti || arGaliPulti && !zaidejas.arJauPuole)
                 {
                     
-                    player.unit = this;
+                    zaidejas.unit = this;
                     
                     
                 }
-                if (arGalimaJudinti && !player.arJauPuole)
+                if (arGalimaJudinti && !zaidejas.arJauPuole)
                 {
                     GalimiLangeliai();
 
                 }
                
             }
-            if (player.unit != null && player.unit.arGaliPulti && !player.arJauPuole && arBaigeJudeti)
+            if (zaidejas.unit != null && zaidejas.unit.arGaliPulti && !zaidejas.arJauPuole && arBaigeJudeti)
             { // puolimas
                 
                 GalimiPuolimoLangeliai();
@@ -75,18 +74,18 @@ public class Unit : MonoBehaviour
         else
         {
             // Paspaudus ant prieso kariuomenes
-            if (player.unit != null && player.arPuolimoFaze && player.unit.arGaliPulti && player.PriesaiEsantysNetoli.Count > 0 && !arPriklausoZaidejui && !player.arJauPuole)
+            if (zaidejas.unit != null && zaidejas.arPuolimoFaze && zaidejas.unit.arGaliPulti && zaidejas.PriesaiEsantysNetoli.Count > 0 && !arPriklausoZaidejui && !zaidejas.arJauPuole)
             {
                 Debug.Log("puolimas");
-                player.arPuolimoFaze = false;
-                player.arJauPuole = true;
-                player.unit.arGaliPulti = false;
-                Puolimas(player.unit, this);
-                player.unit = null;
-                player.PriesaiEsantysNetoli.Clear();
+                zaidejas.arPuolimoFaze = false;
+                zaidejas.arJauPuole = true;
+                zaidejas.unit.arGaliPulti = false;
+                Puolimas(zaidejas.unit, this);
+                zaidejas.unit = null;
+                zaidejas.PriesaiEsantysNetoli.Clear();
                 
                 IsvalytiSunaikintoKarioLangeli();
-                player.arJauPuole = true;
+                zaidejas.arJauPuole = true;
             }
         }
         
@@ -100,7 +99,7 @@ public class Unit : MonoBehaviour
         {
             if (this.transform.position.x == tile.transform.position.x && this.transform.position.y == tile.transform.position.y)
             {
-                player.dabartinisLangelis = tile;
+                zaidejas.dabartinisLangelis = tile;
                 
             }
 
@@ -114,12 +113,12 @@ public class Unit : MonoBehaviour
     }
     public void GalimiPuolimoLangeliai()
     {
-        player.PriesaiEsantysNetoli.Clear();
+        zaidejas.PriesaiEsantysNetoli.Clear();
         foreach (Unit unit in FindObjectsOfType<Unit>())
         {
               if (Mathf.Abs(transform.position.x - unit.transform.position.x) + Mathf.Abs(transform.position.y - unit.transform.position.y) <= galimasPultiAtstumas  && !unit.arPriklausoZaidejui)
               {
-                      player.PriesaiEsantysNetoli.Add(unit);
+                      zaidejas.PriesaiEsantysNetoli.Add(unit);
               }
         }
     }
@@ -127,7 +126,7 @@ public class Unit : MonoBehaviour
     {
         foreach (var tile in FindObjectsOfType<Tile>())
         {
-            foreach (var item in player.PriesaiEsantysNetoli)
+            foreach (var item in zaidejas.PriesaiEsantysNetoli)
             {
                 if (tile.transform.position.x == item.transform.position.x && tile.transform.position.y == item.transform.position.y)
                 {

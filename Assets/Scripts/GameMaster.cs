@@ -26,14 +26,16 @@ public class GameMaster : MonoBehaviour
     // Kariuomeniu prefab
     public GameObject pestininkas;
 
-    private Player player;
+    private Player zaidejas;
+    private Player priesas;
     public float ejimoLaikas = 30f;
     private float dabartinisLaikas;
     private bool arZaidimasPrasidejo;
 
     private void Start()
     {
-        player = FindObjectOfType<Player>();
+        zaidejas = GameObject.Find("/Zaidejai/zaidejas").GetComponent<Player>();
+        priesas = GameObject.Find("/Zaidejai/priesas").GetComponent<Player>();
         PradetiEjima();
         AtnaujintiAuksiniuTeksta();
     }
@@ -78,26 +80,36 @@ public class GameMaster : MonoBehaviour
     }
     public void PradetiEjima()
     {
-            int ejimas = 1;
-            player.arZaidejoEjimas = (ejimas == 1) ? true : false;
+
+            zaidejas.arZaidejoEjimas = true;
+            priesas.arZaidejoEjimas = false;
             arZaidimasPrasidejo = true;
             dabartinisLaikas = ejimoLaikas;
             AtnaujintiKienoEjimasVarda();
-
+            zaidejas.arGalimaJudintiKitaKari = true;
+            priesas.arGalimaJudintiKitaKari = false;    
     }
     public void BaigtiEjima()
     {
-            player.arZaidejoEjimas = (player.arZaidejoEjimas == true) ? false : true;
+            zaidejas.arZaidejoEjimas = !zaidejas.arZaidejoEjimas;
+            priesas.arZaidejoEjimas = !priesas.arZaidejoEjimas;
             dabartinisLaikas = ejimoLaikas;
             AtnaujintiKienoEjimasVarda();
-            AtnaujintiKariuLeidimus(player.arZaidejoEjimas);
+            AtnaujintiKariuLeidimus(zaidejas.arZaidejoEjimas);
+            AtnaujintiKariuLeidimus(priesas.arZaidejoEjimas);
             IsvalytiPasirinktusLangelius();
-            player.unit = null;
-            player.arJauPuole = false;
+            zaidejas.unit = null;
+            zaidejas.arJauPuole = false;
+            zaidejas.arGalimaJudintiKitaKari = true;
+            priesas.unit = null;
+            priesas.arJauPuole = false;
+            priesas.arGalimaJudintiKitaKari = true;
+        Debug.Log("ar zaidejo ejimas" + zaidejas.arZaidejoEjimas);
+        Debug.Log("ar prieso ejimas" + priesas.arZaidejoEjimas);
     }
     public void AtnaujintiAuksiniuTeksta()
     {
-        auksiniai.text = player.auksiniai.ToString();
+        auksiniai.text = zaidejas.auksiniai.ToString();
     }
     public void AtnaujintiEjimoLaikoTeksta(float dabartinisLaikas)
     {
@@ -105,19 +117,14 @@ public class GameMaster : MonoBehaviour
     }
     public void AtnaujintiKienoEjimasVarda()
     {
-        string kienoEjimasText = (player.arZaidejoEjimas) ? "Žaidėjo ėjimas" : "AI ėjimas";
+        string kienoEjimasText = (zaidejas.arZaidejoEjimas) ? "Žaidėjo ėjimas" : "AI ėjimas";
         kienoEjimas.text = kienoEjimasText;
     }
     public bool arZaidejoEjimas()
     {
-        if (player.arZaidejoEjimas)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        if (zaidejas.arZaidejoEjimas) return true;
+        return false;
+        
     }
     public void AtnaujintiKariuLeidimus(bool arZaidejo)
     {

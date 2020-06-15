@@ -8,16 +8,20 @@ public class AI : MonoBehaviour
     List <Unit> aiPajegos = new List<Unit>();
     List<Unit> priesai = new List<Unit>();
     List<Tile> langeliai = new List<Tile>();
-    private AI ai;
-    private Player player;
+    Tile judejimoLangelis;
+    private Player zaidejas;
+    private Player priesas;
     private GameMaster gameMaster;
     private bool arSudetosPajegosILista;
+    bool arJauPuole = false;
+    bool arBaigtiEjima = true;
     private void Awake()
     {
-        
-        player = FindObjectOfType<Player>();
+
+        priesas = GameObject.Find("/Zaidejai/priesas").GetComponent<Player>();
+        zaidejas = GameObject.Find("/Zaidejai/zaidejas").GetComponent<Player>();
         gameMaster = FindObjectOfType<GameMaster>();
-        arSudetosPajegosILista = false;
+        
     }
     private void Update()
     {
@@ -25,16 +29,15 @@ public class AI : MonoBehaviour
         {
             arSudetosPajegosILista = false;
         }
-        if (!player.arZaidejoEjimas && !arSudetosPajegosILista)
+        if (priesas.arZaidejoEjimas)
         {
-
             VisosAiPajegos();
-            StartCoroutine(AiJudejimas());
+            Priesai(priesai, priesas.unit);
             
+            //StartCoroutine(PasirenkameUnit(aiPajegos));
 
-            arSudetosPajegosILista = true;
         }
-        
+
     }
     Unit RastiArtimiausiaPriesa(List<Unit> priesai)
     {
@@ -58,9 +61,10 @@ public class AI : MonoBehaviour
      
     private void GalimiJudejimoLangeliai(List<Tile> langeliai, Unit unit)
     {
-        
+        langeliai.Clear();
         foreach (var tile in FindObjectsOfType<Tile>())
         {
+            
             if (Mathf.Abs(unit.transform.position.x - tile.transform.position.x) + Mathf.Abs(unit.transform.position.y - tile.transform.position.y) <= unit.galimasVaiksciotiAtstumas && tile.arTusciasLangelis)
             {
                 var col = tile.GetComponent<SpriteRenderer>();
@@ -68,12 +72,12 @@ public class AI : MonoBehaviour
                 langeliai.Add(tile);
             }
         }
+       
     }
     private void Priesai(List<Unit> priesai, Unit pasirinktas)
     {
         if (priesai.Count > 0)
         {
-
             foreach (Unit unit in priesai)
             {
                 if (Mathf.Abs(pasirinktas.transform.position.x - unit.transform.position.x) + Mathf.Abs(pasirinktas.transform.position.y - unit.transform.position.y) <= pasirinktas.galimasPultiAtstumas && unit.arPriklausoZaidejui)
@@ -82,17 +86,18 @@ public class AI : MonoBehaviour
                 }
             }
         }
-        
-        
     }
     private Tile ArtimiausiasLangelisEsantisPrieZaidejo(List<Tile> langeliai, Unit unit)
     {
         Tile artimiausiasLangelisPriePrieso = langeliai[0];
-        float maziausiasAtstumas = 0;
+        float maziausiasAtstumas = 100;
         foreach (var langelis in langeliai)
         {
-            if (Mathf.Abs(langelis.transform.position.x - artimiausiasLangelisPriePrieso.transform.position.x) + Mathf.Abs(langelis.transform.position.y - artimiausiasLangelisPriePrieso.transform.position.y) <= maziausiasAtstumas)
+            var atstumas = Mathf.Abs(langelis.transform.position.x - artimiausiasLangelisPriePrieso.transform.position.x) + Mathf.Abs(langelis.transform.position.y - artimiausiasLangelisPriePrieso.transform.position.y);
+
+            if (atstumas <= maziausiasAtstumas)
             {
+                maziausiasAtstumas = atstumas;
                 artimiausiasLangelisPriePrieso = langelis;
             }
         }
@@ -105,11 +110,10 @@ public class AI : MonoBehaviour
         {
             kasPuola.Puolimas(kasPuola, kaPuola);
         }
-        
-        
     }
     private void VisosAiPajegos()
     {
+        aiPajegos.Clear();
         foreach (var item in FindObjectsOfType<Unit>())
         {
             if (!item.arPriklausoZaidejui)
@@ -118,29 +122,30 @@ public class AI : MonoBehaviour
             }
         }
     }
-    IEnumerator AiJudejimas()
+    IEnumerator PasirenkameUnit(List<Unit> kariai)
     {
-        foreach (var unit in aiPajegos)
+        
+        for (int i = 0; i < kariai.Count; i++)
         {
-            langeliai.Clear();
-            GalimiJudejimoLangeliai(langeliai, unit);
-
-            Tile artimiausiasLangelis = ArtimiausiasLangelisEsantisPrieZaidejo(langeliai, unit);
-            StartCoroutine(artimiausiasLangelis.PradetiJudejima(unit, artimiausiasLangelis.transform.position));
-            gameMaster.IsvalytiPasirinktusLangelius();
-            yield return new WaitForSeconds(1f);
-            priesai.Clear();
-            Priesai(priesai, unit);
-            if (priesai.Count> 0)
-            {
-                Unit kaPulti = RastiArtimiausiaPriesa(priesai);
-                Puolimas(unit, kaPulti);
-            }
             
-            yield return new WaitForSeconds(1f);
+            priesas.unit = kariai[i];
+            
+            GalimiJudejimoLangeliai(langeliai, priesas.unit);
+            judejimoLangelis = ArtimiausiasLangelisEsantisPrieZaidejo(langeliai, priesas.unit);
+            if (priesas.unit != null && priesas.unit.arGalimaJudinti == true && priesas.arZaidejoEjimas && priesas.arGalimaJudintiKitaKari)
+            {
+                priesas.arGalimaJudintiKitaKari = false;
+                
+                yield return StartCoroutine(judejimoLangelis.PradetiJudejima(priesas, judejimoLangelis));
+
+                
+
+            }
+            yield return new WaitForSeconds(2f);
+            
         }
-        unit = null;
-        gameMaster.BaigtiEjima();
-        yield return null;
+
+        
+
     }
 }
