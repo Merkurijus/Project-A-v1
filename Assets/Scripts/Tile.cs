@@ -9,11 +9,15 @@ public class Tile : MonoBehaviour
     private Player priesas;
     private PridetiKariuomeneUI pridetiKariuomeneUI;
     private SpriteRenderer sprite;
+
+    [Header("Dabartine langelio spalva")]
     public Color dabartineSpalva;
+
+    [Header("Bool kintamieji")]
     public bool arPasirinktas;
-    private bool galimasEjimas;
     public bool arTusciasLangelis = true;
     public bool arAntLangelioEsantiPriesaGalimaPulti;
+
     private void Start()
     {
         gameMaster = FindObjectOfType<GameMaster>();
@@ -25,10 +29,10 @@ public class Tile : MonoBehaviour
     }
     private void OnMouseDown()
     {
-
         PadedamasKarys(zaidejas);
         PaspaustaEiti(zaidejas, this);
     }
+    #region Langelio spalva uzvedus ir patraukus pele
     private void OnMouseOver()
     {
         UzvedamiLangeliai(gameMaster.langelioSpalvaUzvedusPele, gameMaster.kariuomenesEjimoSpalvaUzvedusPele, gameMaster.kariuomenesPuolimoSpalva, gameMaster.kariuomenesEjimoSpalva);
@@ -37,6 +41,8 @@ public class Tile : MonoBehaviour
     {
         UzvedamiLangeliai(dabartineSpalva, gameMaster.kariuomenesEjimoSpalva, gameMaster.kariuomenesEjimoSpalva, dabartineSpalva);
     }
+    #endregion
+    #region Uzvedamu langeliu spalvos
     void UzvedamiLangeliai(Color dabartineSpalva, Color galimoEjimoSpalva, Color galimoPuolimoSpalva, Color dedamoKarioSpalva)
     {
         if (zaidejas.unit == null)
@@ -53,22 +59,28 @@ public class Tile : MonoBehaviour
             sprite.color = dedamoKarioSpalva;
         }
     }
+    #endregion
+    #region Padedamas karys paspaudus ant langelio
     void PadedamasKarys(Player player)
     {
-        if (player.rankojeUnit != null && arTusciasLangelis && transform.position.y <=3)
+        if (player.rankoje != null && arTusciasLangelis && transform.position.y <=3)
         {
-            var u = Instantiate(gameMaster.pestininkas);
+            var u = Instantiate(zaidejas.rankoje);
             u.transform.position = this.transform.position;
             u.transform.position = new Vector3(u.transform.position.x, u.transform.position.y, -5f);
             var unitClass = u.GetComponent<Unit>();
             unitClass.arPriklausoZaidejui = true;
-            player.rankojeUnit = null;
+            zaidejas.rankoje = null;
             player.unit = null;
             player.arKarysRankoje = false;
             arTusciasLangelis = false;
-            pridetiKariuomeneUI.pirktiKariUI.SetActive(true);
+            pridetiKariuomeneUI.pirktiPestininkaUI.SetActive(true);
+            pridetiKariuomeneUI.pirktiLankininkaUI.SetActive(true);
+            pridetiKariuomeneUI.pirktiMagaUI.SetActive(true);
         }
     }
+    #endregion
+    #region Galimas ejimas
     private bool GalimasEjimas(Player player)
     {
         if (player.unit != null && Mathf.Abs(player.unit.transform.position.x - this.transform.position.x) + Mathf.Abs(player.unit.transform.position.y - this.transform.position.y) <= player.unit.galimasVaiksciotiAtstumas && !player.arJauPuole)
@@ -82,19 +94,18 @@ public class Tile : MonoBehaviour
         }
 
     }
+    #endregion
+    #region Kariuomenes judejimas paspaudus ant langelio
     public void PaspaustaEiti(Player player, Tile tile)
     {
-
         if (GalimasEjimas(player) && player.unit != null && player.unit.arGalimaJudinti == true && tile.arTusciasLangelis && player.arZaidejoEjimas && player.arGalimaJudintiKitaKari)
         {
             player.arGalimaJudintiKitaKari = false;
-            Debug.Log("kiek");
             StartCoroutine(PradetiJudejima(player, this));
-            
-            
-            
         }
     }
+    #endregion
+    #region Kariuomenes judejimas
     public IEnumerator PradetiJudejima(Player player, Tile kur)
     {
         
@@ -113,11 +124,15 @@ public class Tile : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
     }
+    #endregion
+    #region Tikrinama ar karys baige judeti
     private bool ArKarysBaigeJudeti(Player player, Tile tile)
     {
         if (player.unit.transform.position.x == tile.transform.position.x && player.unit.transform.position.y == player.unit.transform.position.y) return true;
         return false;
     }
+    #endregion
+    #region Judinamas karys ir atnaujinami zaidejo kintamieji 
     private void Judejimas(Player player)
     {
         player.unit.arBaigeJudeti = true;
@@ -129,7 +144,6 @@ public class Tile : MonoBehaviour
 
         player.arPuolimoFaze = true;
         
-        Debug.Log("Baige judet");
         gameMaster.IsvalytiPasirinktusLangelius();
         player.unit.GalimiPultiPriesai();
 
@@ -140,4 +154,5 @@ public class Tile : MonoBehaviour
         }
         
     }
+    #endregion
 }

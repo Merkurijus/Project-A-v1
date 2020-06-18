@@ -6,33 +6,33 @@ public class Player : MonoBehaviour
 {
 
     public int auksiniai;
-    public List<GameObject> zaidejoKariuomene = new List<GameObject>();
-    public List<GameObject> priesininkoKariuomene = new List<GameObject>();
-    [HideInInspector]
+    public int lygis;
+    public int taskai;
+    public List<Unit> PriesaiEsantysNetoli = new List<Unit>();
+
+    private Player player;
     public Unit unit;
     public Tile dabartinisLangelis;
     public Tile naujasLangelis;
-    public Unit rankojeUnit;
+    public GameObject rankoje;
 
-    public List<Unit> PriesaiEsantysNetoli = new List<Unit>();
+    public string vardas;
+    public string sesija;
+    
     public bool arKarysRankoje;
     public bool arZaidejoEjimas;
     public bool arPuolimoFaze;
     public bool arJauPuole;
     public bool arGalimaJudintiKitaKari;
-    public int TuriVienosRusiesKariu(string pavadinimas)
+    private void Start()
     {
-        int viso = 0;
-        foreach (var item in zaidejoKariuomene)
-        {
-            var temp = item.GetComponent<Unit>();
-            if (temp.pavadinimas.Equals(pavadinimas))
-            {
-                viso++;
-            }
-        }
-        return viso;
+         player = GameObject.Find("/Zaidejai/zaidejas").GetComponent<Player>();
+         vardas = PlayerPrefs.GetString("vardas", "nera");
+         sesija = PlayerPrefs.GetString("sesija", "nera");
+         Formos forma = new Formos();
+         StartCoroutine(forma.VartotojoInformacija(player, vardas, sesija));
     }
-
+  
+   
 
 }
